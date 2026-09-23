@@ -1,0 +1,106 @@
+# Render Blueprint — API (web service) + web app (static site) + fake external systems (web service). DB and auth are on Supabase.
+# Secrets are `sync: false`: Render asks for their values when the Blueprint is created.
+services:
+  - type: web
+    name: doch1-api
+    runtime: node
+    region: frankfurt
+    plan: free # sleeps after ~15 min idle (cold start ~1 min); upgrade to starter for a live demo
+    branch: main
+    autoDeployTrigger: checksPass # deploy after CI on main is green
+    buildCommand: corepack pnpm install --frozen-lockfile --filter api... # no 'corepack enable': Render's /usr/bin is read-only
+    startCommand: npm --prefix apps/api start
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: '24'
+      - key: TZ_APP
+        value: Asia/Jerusalem
+      - key: DATABASE_URL # Supabase pooler URL, port 6543, ?sslmode=require
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: NFC_CARD_HMAC_SECRET # keys the card fingerprints; generated once by Render, never rotate casually
+        generateValue: true
+      - key: CORS_ORIGINS # the web app below + local Expo web
+        value: https://doch1-web.onrender.com,http://localhost:8081
+      - key: INTEGRATION_CPR_KEY # I1: external-system key, ≥32 chars; unset = CPR disabled
+        sync: false
+      - key: INTEGRATION_PEOPLE_DIGITAL_KEY # I1: אנשים בדיגיטל key; unset = disabled
+        sync: false
+
+  # Expo web export on Render's CDN (free). Not on the private network: it calls the API's public URL.
+  - type: web
+    name: doch1-web
+    runtime: static
+    branch: main
+    autoDeployTrigger: checksPass
+    buildCommand: corepack pnpm install --frozen-lockfile --filter mobile... && corepack pnpm --filter mobile exec expo export -p web
+    staticPublishPath: apps/mobile/dist
+    routes:
+      - type: rewrite # SPA fallback; real files (JS bundles, mockServiceWorker.js) are served as-is
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Referrer-Policy
+        value: no-referrer
+      - path: /*
+        name: Strict-Transport-Security
+        value: max-age=31536000; includeSubDomains
+      - path: /_expo/static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    envVars: # EXPO_PUBLIC_* are baked in at build time — public values only
+      - key: NODE_VERSION
+        value: '24'
+      - key: SKIP_INSTALL_DEPS # we install with the pinned pnpm in buildCommand
+        value: 'true'
+      - key: EXPO_PUBLIC_API_URL
+        value: https://doch1-api.onrender.com/api/v1
+      - key: EXPO_PUBLIC_USE_MOCK # 0 since the sync point (A5): the live app uses the real API
+        value: '0'
+      - key: EXPO_PUBLIC_SUPABASE_URL
+        value: https://cxouiijdxmimjukblhho.supabase.co
+      - key: EXPO_PUBLIC_SUPABASE_ANON_KEY # public by design, but kept out of git
+        value: sb_publishable_6f0TM-Mt2uB_wG-4o0FEIg_ED5AKFZs
+
+  # I5: fake CPR / אנשים בדיגיטל website (SPEC F11/F12) — its own service and URL. It only calls the API's
+  # /integrations/* routes with its keys (server-side, never sent to the browser); no DB or Supabase secrets.
+  - type: web
+    name: doch1-integrations
+    runtime: node
+    region: frankfurt
+    plan: free
+    branch: main
+    autoDeployTrigger: checksPass
+    buildCommand: corepack pnpm install --frozen-lockfile --filter integrations-mock...
+    startCommand: npm --prefix apps/integrations-mock start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: '24'
+      - key: DOCH1_API_URL
+        value: https://doch1-api.onrender.com/api/v1
+      - key: CPR_API_KEY # = INTEGRATION_CPR_KEY on doch1-api
+        sync: false
+      - key: PEOPLE_DIGITAL_API_KEY # = INTEGRATION_PEOPLE_DIGITAL_KEY on doch1-api
+        sync: false
+      - key: MOCK_USER # Basic Auth for the whole site
+        sync: false
+      - key: MOCK_PASSWORD # ≥16 chars
+        sync: false

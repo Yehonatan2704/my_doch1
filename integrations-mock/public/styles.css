@@ -1,0 +1,314 @@
+/* Fake external systems — deliberately its own look (slate + teal), so nobody mistakes it for Doch1. */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #1d2433;
+  --muted: #5d6677;
+  --border: #d9dee7;
+  --accent: #0f766e;
+  --accent-strong: #0b5f58;
+  --accent-soft: #e2f3f1;
+  --ok: #1e8a52;
+  --ok-soft: #e5f5ec;
+  --err: #c43333;
+  --err-soft: #fdeaea;
+  --badge: #f5c451;
+  --radius: 12px;
+  --shadow: 0 4px 12px rgba(29, 36, 51, 0.07);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- header + tabs ---------- */
+.top {
+  background: var(--ink);
+  color: #fff;
+  padding: 0 16px;
+}
+.top-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 16px 0 12px;
+}
+h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.badge {
+  background: var(--badge);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.tabs {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4px;
+}
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 8px;
+  color: #c9cfdb;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+}
+.tab[aria-selected='true'] {
+  color: #fff;
+  border-bottom-color: var(--badge);
+}
+.tab:focus-visible {
+  outline: 2px solid var(--badge);
+  outline-offset: -2px;
+}
+
+/* ---------- layout ---------- */
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.field {
+  margin-bottom: 14px;
+  min-width: 0;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 420px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+label,
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.hint {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+input,
+select {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  min-height: 44px;
+}
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.readonly {
+  display: block;
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-weight: 500;
+}
+
+/* ---------- soldier picker ---------- */
+select:disabled {
+  background: var(--bg);
+  color: var(--muted);
+}
+
+/* ---------- preview + send ---------- */
+.preview {
+  min-height: 24px;
+  margin: 0 0 12px;
+  color: var(--accent-strong);
+  font-weight: 500;
+}
+.send {
+  width: 100%;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.send:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+.send:disabled {
+  background: #aab2bf;
+  cursor: not-allowed;
+}
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- result ---------- */
+.result.ok {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+.result.err {
+  border-color: var(--err);
+  background: var(--err-soft);
+}
+.err-msg {
+  margin: 0;
+  color: var(--err);
+  font-weight: 500;
+}
+.code {
+  text-align: end;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.stat {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: var(--muted);
+}
+.stat .num {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.dates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dates li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 14px;
+  direction: ltr;
+}
+
+/* ---------- recent sends ---------- */
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.log:empty::after {
+  content: 'עדיין לא נשלח דבר';
+  color: var(--muted);
+  font-size: 14px;
+}
+.log li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.log li:first-child {
+  border-top: 0;
+}
+.log .when {
+  color: var(--muted);
+  grid-row: span 2;
+}
+.log .outcome {
+  font-size: 13px;
+}
+.log li.ok .outcome {
+  color: var(--ok);
+}
+.log li.err .outcome {
+  color: var(--err);
+}
+
+.foot {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}

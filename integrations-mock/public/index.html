@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>מערכות חיצוניות — הדמיה</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="top">
+      <div class="top-inner">
+        <h1>מערכות חיצוניות — הדמיה</h1>
+        <span class="badge">סביבת הדגמה</span>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="מערכת">
+        <a class="tab" role="tab" id="tab-cpr" href="#cpr" aria-controls="panel-cpr">CPR</a>
+        <a class="tab" role="tab" id="tab-people" href="#people" aria-controls="panel-people"
+          >אנשים בדיגיטל</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <!-- CPR: N gimelim issued today → Doch1 reports on today+1 … today+N (SPEC F11) -->
+      <section class="panel" id="panel-cpr" role="tabpanel" aria-labelledby="tab-cpr" hidden>
+        <form class="card" id="cpr-form" novalidate>
+          <h2>הנפקת גימלים</h2>
+          <div class="field picker" id="cpr-picker">
+            <label for="cpr-soldier">חייל/ת</label>
+          </div>
+          <div class="field">
+            <span class="label">תאריך הנפקה</span>
+            <output class="readonly" id="cpr-issue">—</output>
+            <p class="hint">התאריך נלקח אוטומטית מיום השליחה</p>
+          </div>
+          <div class="field">
+            <label for="cpr-days">מספר ימי גימלים</label>
+            <input id="cpr-days" type="number" inputmode="numeric" min="1" step="1" required />
+          </div>
+          <p class="preview" id="cpr-preview" aria-live="polite"></p>
+          <button class="send" id="cpr-send" type="submit" disabled>
+            <span class="spinner" hidden></span><span>שלח ל-דוח 1</span>
+          </button>
+        </form>
+        <div class="card result" id="cpr-result" role="status" hidden></div>
+        <div class="card">
+          <h3>שליחות אחרונות</h3>
+          <ol class="log" id="cpr-log"></ol>
+        </div>
+      </section>
+
+      <!-- אנשים בדיגיטל: approved annual leave, start … end inclusive (SPEC F12) -->
+      <section class="panel" id="panel-people" role="tabpanel" aria-labelledby="tab-people" hidden>
+        <form class="card" id="people-form" novalidate>
+          <h2>אישור חופשה שנתית</h2>
+          <div class="field picker" id="people-picker">
+            <label for="people-soldier">חייל/ת</label>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="people-start">תחילת חופשה</label>
+              <input id="people-start" type="date" required />
+            </div>
+            <div class="field">
+              <label for="people-end">סוף חופשה (כולל)</label>
+              <input id="people-end" type="date" required />
+            </div>
+          </div>
+          <p class="preview" id="people-preview" aria-live="polite"></p>
+          <button class="send" id="people-send" type="submit" disabled>
+            <span class="spinner" hidden></span><span>שלח ל-דוח 1</span>
+          </button>
+        </form>
+        <div class="card result" id="people-result" role="status" hidden></div>
+        <div class="card">
+          <h3>שליחות אחרונות</h3>
+          <ol class="log" id="people-log"></ol>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      כל הנתונים באתר זה בדויים. האתר מדמה מערכות חיצוניות לצורך הדגמה בלבד.
+    </footer>
+  </body>
+</html>

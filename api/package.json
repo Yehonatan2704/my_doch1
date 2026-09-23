@@ -1,0 +1,30 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "drizzle:pull": "drizzle-kit pull && node scripts/annotate-schema.mjs && rm -rf src/db/meta src/db/*.sql"
+  },
+  "dependencies": {
+    "@doch1/shared": "workspace:*",
+    "@fastify/cors": "^11.3.0",
+    "@fastify/helmet": "^13.1.1",
+    "@fastify/multipart": "^9.4.0",
+    "@fastify/rate-limit": "^11.2.0",
+    "drizzle-orm": "^0.45.3",
+    "fastify": "^5.12.5",
+    "postgres": "^3.4.9",
+    "tsx": "^4.23.15"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6",
+    "drizzle-kit": "^0.31.11",
+    "vitest": "^4.1.11"
+  }
+}

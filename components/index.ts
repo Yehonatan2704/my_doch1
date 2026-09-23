@@ -1,0 +1,25 @@
+// Design system (DESIGN.md → Components). Screens import from here; tokens only, no raw hex.
+export { AuthGate, LoadingScreen } from './AuthGate';
+export { Banner, type BannerKind } from './Banner';
+export { CalendarMonth } from './CalendarMonth';
+export { CategoryIcon } from './CategoryIcon';
+export { CategoryTile } from './CategoryTile';
+export { Countdown } from './Countdown';
+export { countdownState, serverOffset } from './countdownState';
+export { HeroAction } from './HeroAction';
+export { OptionRow } from './OptionRow';
+export { PillButton, type PillVariant } from './PillButton';
+export { Sheet } from './Sheet';
+export { SideMenu, useSideMenu } from './SideMenu';
+export { EmptyState, ErrorState, Skeleton } from './States';
+export { StatusCard } from './StatusCard';
+export { useToast } from './Toast';
+export { Avatar, ModePill, TopBar, useAppMode, type AppMode } from './TopBar';
+export { Txt } from './Txt';
+export { useReducedMotion } from './useReducedMotion';
+export { TabBar } from './TabBar';
+export { WeekTemplateStrip } from './WeekTemplateStrip';
+export { TemplateEditorSheet } from './TemplateEditorSheet';
+export { ApplyTemplateSheet, useApplyPlan } from './ApplyTemplateSheet';
+export { TimePicker } from './TimePicker';
+export { TemplateCard } from './TemplateCard';

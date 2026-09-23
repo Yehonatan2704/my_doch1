@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_yellow">#F6E36B</color>
+    <color name="brand_ink">#262538</color>
+    <color name="surface_background">#F4F6FA</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="text_secondary">#626778</color>
+    <color name="danger">#B3261E</color>
+    <color name="warning">#985A00</color>
+    <color name="success">#1E7A47</color>
+    <color name="info">#1565C0</color>
+</resources>

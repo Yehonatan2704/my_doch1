@@ -1,21 +1,59 @@
 {
-  "name": "doch1",
+  "name": "mobile",
+  "version": "1.0.0",
   "private": true,
-  "engines": {
-    "node": "24.x"
-  },
+  "main": "expo-router/entry",
   "scripts": {
-    "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test",
-    "format": "prettier --write ."
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@doch1/shared": "workspace:*",
+    "@expo-google-fonts/heebo": "^0.4.2",
+    "@expo-google-fonts/ibm-plex-sans-hebrew": "^0.4.1",
+    "@supabase/supabase-js": "^2.117.0",
+    "@tanstack/react-query": "^5.103.2",
+    "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
+    "expo": "~57.0.24",
+    "expo-constants": "~57.0.19",
+    "expo-document-picker": "~57.0.2",
+    "expo-font": "~57.0.4",
+    "expo-haptics": "~57.0.3",
+    "expo-image-picker": "~57.0.19",
+    "expo-linking": "~57.0.10",
+    "expo-localization": "~57.0.2",
+    "expo-notifications": "~57.0.20",
+    "expo-router": "~57.0.22",
+    "expo-secure-store": "~57.0.4",
+    "expo-status-bar": "~57.0.1",
+    "expo-web-browser": "~57.0.3",
+    "fast-text-encoding": "^1.0.6",
+    "lucide-react-native": "^1.47.0",
+    "msw": "^2.15.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-svg": "15.15.4",
+    "react-native-url-polyfill": "^4.0.0",
+    "react-native-web": "^0.21.2"
   },
   "devDependencies": {
-    "eslint": "^10.11.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.9.8",
+    "@types/fast-text-encoding": "^1.0.3",
+    "@types/react": "~19.2.2",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.70.1"
+    "vitest": "^4.1.11"
   },
-  "packageManager": "pnpm@9.15.9"
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }
